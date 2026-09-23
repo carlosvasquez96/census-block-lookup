@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <h1>Texas Census Block & Block Group Lookup</h1>
-
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -13,25 +11,31 @@
 
     <div class="container">
 
-        <h1>Texas Census Block Lookup</h1>
+        <h1>Texas Census Block & Block Group Lookup</h1>
 
         <p class="description">
             Enter an address to find its Census information.
         </p>
 
-        <div class="search-box">
+        <form class="search-box" id="lookupForm">
 
             <input
                 type="text"
                 id="address"
-                placeholder="Enter an address"
+                placeholder="Street address, City, State, ZIP"
             >
 
-            <button onclick="findCensusBlock()">
+            <button type="submit">
                 Find Census Information
             </button>
 
-        </div>
+        </form>
+
+        <p class="address-example">
+            Example: 1110 Houston St, Laredo, TX 78040
+            <br>
+            <span>Include the city, state, and ZIP code for best results.</span>
+        </p>
 
         <div id="message"></div>
 
@@ -45,14 +49,14 @@
             </p>
 
             <p>
-    <strong>TEA Census Block Group:</strong>
-    <span id="censusBlock"></span>
-</p>
+                <strong>TEA Census Block Group:</strong>
+                <span id="censusBlock"></span>
+            </p>
 
-<p>
-    <strong>Block Group:</strong>
-    <span id="blockGroup"></span>
-</p>
+            <p>
+                <strong>Block Group:</strong>
+                <span id="blockGroup"></span>
+            </p>
 
             <p>
                 <strong>Census Tract:</strong>
@@ -71,11 +75,11 @@
 
         </div>
 
-        </div>
+        <p class="data-source">
+            Data Source: U.S. Census Bureau — 2020 Census Geography
+        </p>
 
-    <p class="data-source">
-        Data Source: U.S. Census Bureau — 2020 Census Geography
-    </p>
+    </div>
 
     <script src="script.js"></script>
 

@@ -82,4 +82,16 @@ button:hover {
     font-size: 13px;
     margin-top: 20px;
 }
+.address-example {
+    margin-top: 10px;
+    text-align: left;
+    color: #666;
+    font-size: 13px;
+}
+
+
+.address-example span {
+    font-size: 12px;
+}
+
 }

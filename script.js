@@ -166,7 +166,7 @@ function findCensusBlock() {
     document.body.appendChild(script);
 
 
-    function cleanup() {
+        function cleanup() {
 
         if (script.parentNode) {
             script.parentNode.removeChild(script);
@@ -175,3 +175,13 @@ function findCensusBlock() {
         delete window[callbackName];
     }
 }
+
+
+// Allow the Enter key to submit the lookup
+document.getElementById("lookupForm").addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    findCensusBlock();
+
+});
