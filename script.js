@@ -185,3 +185,95 @@ document.getElementById("lookupForm").addEventListener("submit", function(event)
     findCensusBlock();
 
 });
+
+
+// Copy the TEA Census Block Group
+function copyCensusBlock() {
+
+    const censusBlock =
+        document.getElementById("censusBlock").textContent.trim();
+
+    if (!censusBlock || censusBlock === "Not available") {
+        return;
+    }
+
+    const button = document.querySelector(".copy-button");
+
+    // Try the modern clipboard method first
+    if (navigator.clipboard && window.isSecureContext) {
+
+        navigator.clipboard.writeText(censusBlock)
+            .then(function() {
+
+                button.textContent = "Copied!";
+
+                setTimeout(function() {
+                    button.textContent = "Copy";
+                }, 1500);
+
+            })
+            .catch(function() {
+
+                copyUsingFallback(censusBlock, button);
+
+            });
+
+    } else {
+
+        copyUsingFallback(censusBlock, button);
+
+    }
+}
+
+
+// Clipboard fallback
+function copyUsingFallback(text, button) {
+
+    const textArea = document.createElement("textarea");
+
+    textArea.value = text;
+
+    textArea.style.position = "fixed";
+    textArea.style.left = "-9999px";
+    textArea.style.top = "0";
+
+    document.body.appendChild(textArea);
+
+    textArea.focus();
+    textArea.select();
+
+    try {
+
+        const successful =
+            document.execCommand("copy");
+
+        if (successful) {
+
+            button.textContent = "Copied!";
+
+            setTimeout(function() {
+                button.textContent = "Copy";
+            }, 1500);
+
+        } else {
+
+            button.textContent = "Copy failed";
+
+            setTimeout(function() {
+                button.textContent = "Copy";
+            }, 2000);
+        }
+
+    } catch (error) {
+
+        console.error("Copy failed:", error);
+
+        button.textContent = "Copy failed";
+
+        setTimeout(function() {
+            button.textContent = "Copy";
+        }, 2000);
+    }
+
+    document.body.removeChild(textArea);
+}
