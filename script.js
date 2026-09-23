@@ -190,64 +190,15 @@ document.getElementById("lookupForm").addEventListener("submit", function(event)
 // Copy the TEA Census Block Group
 function copyCensusBlock() {
 
-    const censusBlock =
-        document.getElementById("censusBlock").textContent.trim();
+    const text = document.getElementById("censusBlock").textContent.trim();
+    const button = document.querySelector(".copy-button");
 
-    if (!censusBlock || censusBlock === "Not available") {
+    if (!text || text === "Not available") {
         return;
     }
 
-    const button = document.querySelector(".copy-button");
-
-    // Try the modern clipboard method first
-    if (navigator.clipboard && window.isSecureContext) {
-
-        navigator.clipboard.writeText(censusBlock)
-            .then(function() {
-
-                button.textContent = "Copied!";
-
-                setTimeout(function() {
-                    button.textContent = "Copy";
-                }, 1500);
-
-            })
-            .catch(function() {
-
-                copyUsingFallback(censusBlock, button);
-
-            });
-
-    } else {
-
-        copyUsingFallback(censusBlock, button);
-
-    }
-}
-
-
-// Clipboard fallback
-function copyUsingFallback(text, button) {
-
-    const textArea = document.createElement("textarea");
-
-    textArea.value = text;
-
-    textArea.style.position = "fixed";
-    textArea.style.left = "-9999px";
-    textArea.style.top = "0";
-
-    document.body.appendChild(textArea);
-
-    textArea.focus();
-    textArea.select();
-
-    try {
-
-        const successful =
-            document.execCommand("copy");
-
-        if (successful) {
+    navigator.clipboard.writeText(text)
+        .then(function() {
 
             button.textContent = "Copied!";
 
@@ -255,25 +206,43 @@ function copyUsingFallback(text, button) {
                 button.textContent = "Copy";
             }, 1500);
 
-        } else {
+        })
+        .catch(function(error) {
 
-            button.textContent = "Copy failed";
+            console.error("Clipboard failed:", error);
 
-            setTimeout(function() {
-                button.textContent = "Copy";
-            }, 2000);
-        }
+            // Fallback copy method
+            const input = document.createElement("input");
 
-    } catch (error) {
+            input.value = text;
+            input.style.position = "fixed";
+            input.style.left = "-9999px";
 
-        console.error("Copy failed:", error);
+            document.body.appendChild(input);
 
-        button.textContent = "Copy failed";
+            input.focus();
+            input.select();
 
-        setTimeout(function() {
-            button.textContent = "Copy";
-        }, 2000);
-    }
+            const copied = document.execCommand("copy");
 
-    document.body.removeChild(textArea);
+            document.body.removeChild(input);
+
+            if (copied) {
+
+                button.textContent = "Copied!";
+
+                setTimeout(function() {
+                    button.textContent = "Copy";
+                }, 1500);
+
+            } else {
+
+                button.textContent = "Copy failed";
+
+                setTimeout(function() {
+                    button.textContent = "Copy";
+                }, 2000);
+            }
+
+        });
 }
